@@ -2,10 +2,13 @@ import { useState, useEffect, useRef } from 'react'
 import { startOfDay, add, isWithinInterval } from 'date-fns'
 
 export default function Player() {
-  const [mode, setMode] = useState('birds')
+  const [auto, setAuto] = useState(true)
+  const [mode, setMode] = useState('none')
   const audioRef = useRef(null)
 
   useEffect(() => {
+    if (!auto) return
+
     const interval = setInterval(() => {
       const sevenAm = add(startOfDay(new Date()), { hours: 7, minutes: 0 })
       const sevenThirtyAm = add(startOfDay(new Date()), { hours: 7, minutes: 30 })
@@ -22,7 +25,7 @@ export default function Player() {
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [auto])
 
   useEffect(() => {
     if (mode === 'nts' || mode === 'birds') {
@@ -38,5 +41,8 @@ export default function Player() {
     { mode === 'nts' && <audio autoPlay ref={audioRef}>
       <source src="https://stream-relay-geo.ntslive.net/stream" />
     </audio> }
+    <button disabled={auto} onClick={() => setMode('nts')}>Radio</button>
+    <button disabled={auto} onClick={() => setMode('birds')}>Birds</button>
+    <button onClick={() => setAuto(!auto)}>Auto</button>
   </div>
 }

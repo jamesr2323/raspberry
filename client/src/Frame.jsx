@@ -9,13 +9,13 @@ export default function Frame() {
     <BrowserRouter>
       <Main>
         <Routes>
-          <Route path="/player" element={<Player />} />
+          <Route path="/" element={<Player />} />
         </Routes>
       </Main>
 
       <Bottom>
         <Buttons>
-          <Button><Link to="/player">Player</Link></Button>
+          <Button><Link to="/">Player</Link></Button>
         </Buttons>
       </Bottom>
     </BrowserRouter>

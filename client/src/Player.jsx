@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { startOfDay, add, isWithinInterval } from 'date-fns'
 
 export default function Player() {
-  const [auto, setAuto] = useState(true)
-  const [mode, setMode] = useState('none')
+  const [auto, setAuto] = useState(false)
+  const [mode, setMode] = useState('birds')
   const audioRef = useRef(null)
 
   useEffect(() => {

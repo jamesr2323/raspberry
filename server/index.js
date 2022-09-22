@@ -9,7 +9,6 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 
 import routes from './routes/index.js'
-import requireHTTPS from './middleware/requireHTTPS.js'
 
 const PORT = process.env.PORT || 3001;
 const app = express();

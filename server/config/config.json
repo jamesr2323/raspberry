@@ -1,0 +1,20 @@
+{
+    "development": {
+        "database": "gratitude_dev",
+        "dialect": "postgres"
+    },
+    "test": {
+        "database": "gratitude_test",
+        "dialect": "postgres"
+    },
+    "production": {
+        "use_env_variable": "DATABASE_URL",
+        "dialect": "postgres",
+        "dialectOptions": {
+            "ssl": {
+              "require": true,
+              "rejectUnauthorized": false
+            }
+        }
+    }
+}

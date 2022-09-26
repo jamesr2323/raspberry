@@ -12,12 +12,6 @@ export default function Frame() {
           <Route path="/" element={<Player />} />
         </Routes>
       </Main>
-
-      <Bottom>
-        <Buttons>
-          <Button><Link to="/">Player</Link></Button>
-        </Buttons>
-      </Bottom>
     </BrowserRouter>
   </Body>
 }

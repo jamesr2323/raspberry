@@ -14,9 +14,8 @@ const Bottom = styled.div`
 `
 
 const Main = styled.div`
-  margin-bottom: ${buttonHeight}px;
-  height: calc(100vh - ${buttonHeight}px);
-  overflow: scroll;
+  height: 100vh;
+  overflow: hidden;
 `
 
 const Buttons = styled.div`
@@ -35,4 +34,14 @@ const Button = styled.div`
   align-items: center;
   font-weight: bold;
 `
-export { Body, Bottom, Main, Buttons, Button }
+
+const Video = styled.video`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+`
+
+export { Body, Bottom, Main, Buttons, Button, Video }

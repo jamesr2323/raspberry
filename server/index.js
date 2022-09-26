@@ -18,6 +18,7 @@ app.set('trust proxy', 1)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.dirname('./client/build/static')));
+app.use('/video', express.static(path.dirname('./video/test')));
 
 app.use(cookieParser())
 
@@ -27,11 +28,6 @@ app.get('/nts', (req, res) => {
   const file = path.resolve(__dirname, './static/nts.html')
   res.sendFile(file);
 })
-
-// app.get('*', (req, res) => {
-//   const file = path.resolve(__dirname, '../client/build/index.html')
-//   res.sendFile(file);
-// });
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

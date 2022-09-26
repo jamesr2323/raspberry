@@ -1,21 +1,57 @@
 import { useState, useEffect, useRef } from 'react'
 import { startOfDay, add, isWithinInterval } from 'date-fns'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { Video } from './FrameStyled'
 
 function say(message) {
   let utterance = new SpeechSynthesisUtterance(message);
   speechSynthesis.speak(utterance);
 }
 
+function getScript(source, callback) {
+    var script = document.createElement('script');
+    var prior = document.getElementsByTagName('script')[0];
+    script.async = 1;
+
+    script.onload = script.onreadystatechange = function( _, isAbort ) {
+        if(isAbort || !script.readyState || /loaded|complete/.test(script.readyState) ) {
+            script.onload = script.onreadystatechange = null;
+            script = undefined;
+
+            if(!isAbort && callback) setTimeout(callback, 0);
+        }
+    };
+
+    script.src = source;
+    prior.parentNode.insertBefore(script, prior);
+}
+
 export default function Player() {
   const [auto, setAuto] = useState(false)
   const [mode, setMode] = useState('birds')
   const audioRef = useRef(null)
+  const spotifyRef = useRef(null)
 
   useHotkeys('q', () => changeTo('bbc6', "BBC 6 Music"))
   useHotkeys('w', () => changeTo('nts', "NTS Radio"))
   useHotkeys('e', () => changeTo('birds', "Birds"))
   useHotkeys('a', toggleAuto)
+
+  useEffect(() => {
+    getScript("https://sdk.scdn.co/spotify-player.js")
+
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      /*global Spotify, a*/
+      spotifyRef.current = new Spotify.Player({
+        name: 'Carly Rae Jepsen Player',
+        getOAuthToken: callback => {
+          callback('access token here');
+        },
+        volume: 0.5
+      });
+      spotifyRef.current.connect()
+    }
+  }, [])
 
   useEffect(() => {
     if (!auto) return
@@ -57,7 +93,10 @@ export default function Player() {
   }
 
   return <div>
-    <img src="https://picsum.photos/1200/800" />
+    <Video width="100%" height="100%" controls autoPlay muted>
+      <source src="/video/stormy_short.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+    </Video>
 
     { mode === 'birds' && <audio autoPlay ref={audioRef}>
       <source src="http://edge-audio-06-thn.sharp-stream.com/rspb.mp3" />

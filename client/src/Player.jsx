@@ -5,6 +5,7 @@ import { Video } from './FrameStyled'
 import axios from 'axios'
 
 function say(message) {
+  serverSpeak(message)
   let utterance = new SpeechSynthesisUtterance(message);
   speechSynthesis.speak(utterance);
 }
@@ -35,6 +36,10 @@ function volumeDown() {
   axios.post('/volume_down')
 }
 
+function serverSpeak(text) {
+  axios.post('/speak' , { text })
+}
+
 export default function Player() {
   const [auto, setAuto] = useState(false)
   const [mode, setMode] = useState('birds')
@@ -54,7 +59,7 @@ export default function Player() {
     getScript("https://sdk.scdn.co/spotify-player.js")
 
     window.onSpotifyWebPlaybackSDKReady = () => {
-      /*global Spotify, a*/
+      /*global Spotify */
       spotifyRef.current = new Spotify.Player({
         name: 'Carly Rae Jepsen Player',
         getOAuthToken: callback => {

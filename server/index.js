@@ -17,8 +17,8 @@ const app = express();
 
 let volume = 40
 
-function setVolume() {
-  exec(`amixer set Master ${volume}%`, (error, stdout, stderr) => {
+function cmd(command) {
+  exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`error: ${error.message}`);
       return;
@@ -31,6 +31,10 @@ function setVolume() {
 
     console.log(`stdout:\n${stdout}`);
   })
+}
+
+function setVolume() {
+  cmd(`amixer set Master ${volume}%`)
 }
 
 app.set('trust proxy', 1)
@@ -55,6 +59,12 @@ app.post('/volume_down', (req, res) => {
   setVolume()
 
   res.json({ volume })
+})
+
+app.post('/speak', (req, res) => {
+  cmd(`espeak "${req.body.text}"`)
+
+  res.json({ success: true })
 })
 
 app.listen(PORT, () => {

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { startOfDay, add, isWithinInterval } from 'date-fns'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Video } from './FrameStyled'
+import axios from 'axios'
 
 function say(message) {
   let utterance = new SpeechSynthesisUtterance(message);
@@ -26,6 +27,14 @@ function getScript(source, callback) {
     prior.parentNode.insertBefore(script, prior);
 }
 
+function volumeUp() {
+  axios.post('/volume_up')
+}
+
+function volumeDown() {
+  axios.post('/volume_down')
+}
+
 export default function Player() {
   const [auto, setAuto] = useState(false)
   const [mode, setMode] = useState('birds')
@@ -35,6 +44,10 @@ export default function Player() {
   useHotkeys('q', () => changeTo('bbc6', "BBC 6 Music"))
   useHotkeys('w', () => changeTo('nts', "NTS Radio"))
   useHotkeys('e', () => changeTo('birds', "Birds"))
+
+  useHotkeys('o', volumeUp)
+  useHotkeys('l', volumeDown)
+
   useHotkeys('a', toggleAuto)
 
   useEffect(() => {
@@ -93,9 +106,8 @@ export default function Player() {
   }
 
   return <div>
-    <Video width="100%" height="100%" controls autoPlay muted>
+    <Video width="100%" height="100%" controls autoPlay muted loop>
       <source src="/video/stormy_short.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
     </Video>
 
     { mode === 'birds' && <audio autoPlay ref={audioRef}>

@@ -126,7 +126,7 @@ export default function Player() {
     const interval = setInterval(() => {
       const sevenAm = add(startOfDay(new Date()), { hours: startHour, minutes: startMinute })
       const sevenThirtyAm = add(startOfDay(new Date()), { hours: fullHour, minutes: fullMinute })
-      const midnight = add(startOfDay(new Date()), { hours: 23, minutes: 59 })
+      const midnight = add(startOfDay(new Date()), { hours: fullHour + 3, minutes: fullMinute })
 
       if (isWithinInterval(new Date(), { start: sevenAm, end: sevenThirtyAm })) {
         setMode('birds')
